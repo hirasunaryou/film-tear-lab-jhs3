@@ -73,6 +73,21 @@ canvas{display:block;width:100%;aspect-ratio:1000/620;touch-action:none;user-sel
 .energyTrack{height:12px;background:#edf1f5;border-radius:999px;overflow:hidden;margin-top:8px;position:relative}
 .energyFill{height:100%;width:0;background:linear-gradient(90deg,#49a878,#ffb13b,#e23c3c);border-radius:inherit;transition:width .06s linear}
 .stateText{font-size:14px;margin-top:6px;color:var(--muted);min-height:24px}
+.detailLab{
+  margin-top:14px;padding:14px;border:1px solid #cfdbee;border-radius:15px;
+  background:linear-gradient(180deg,#f9fbff,#f1f6ff)
+}
+.detailTop{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px}
+.detailTop h3{font-size:18px;line-height:1.35;margin:5px 0 0}
+.miniEyebrow{display:inline-block;padding:3px 8px;border-radius:999px;background:#fff0d8;color:#8a5100;font-size:12px;font-weight:900}
+.detailReplay{border:1px solid #c6d5ef;border-radius:10px;background:white;color:#173e9e;padding:8px 11px;font-weight:850;cursor:pointer;white-space:nowrap}
+.detailTabs{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:8px}
+.detailTab{border:1px solid #cfdaea;border-radius:10px;background:white;color:var(--ink);padding:8px 9px;font-size:13px;font-weight:850;cursor:pointer}
+.detailTab.active{background:#173e9e;border-color:#173e9e;color:white}
+.detailCanvasWrap{overflow:hidden;border:1px solid #d8e1ed;border-radius:12px;background:#edf3f9}
+#detailCanvas{display:block;width:100%;aspect-ratio:900/340;pointer-events:none}
+.detailCaption{margin:9px 2px 5px;font-size:14px;font-weight:800;color:#25384d}
+.detailNote{margin:0;padding:9px 10px;border-radius:10px;background:white;color:#5b6877;font-size:12px;line-height:1.55}
 .side{padding:17px;align-self:start;position:sticky;top:10px}
 .side h2,.full h2{font-size:20px;line-height:1.35;margin:0 0 12px}
 .presets{display:grid;grid-template-columns:1fr;gap:7px;margin-bottom:15px}
@@ -133,5 +148,11 @@ footer{grid-column:1/-1;text-align:center;color:var(--muted);font-size:13px;padd
   .full{padding:16px}
   .side{padding:15px}
   .canvasHint{bottom:8px;font-size:12px}
+  .detailLab{padding:11px}
+  .detailTop{align-items:stretch;flex-direction:column}
+  .detailReplay{width:100%}
+  .detailTabs{grid-template-columns:1fr}
+  #detailCanvas{aspect-ratio:900/500}
+  .detailCaption{font-size:13px}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
