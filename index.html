@@ -11,7 +11,7 @@
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" href="./assets/icon-192.png">
 <title>波うつ「破れ」の科学ラボ｜中学3年・探究向け</title>
-<link rel="stylesheet" href="./css/styles.css">
+<link rel="stylesheet" href="./css/styles.css?v=0.3">
 </head>
 <body>
 <header class="wrap">
@@ -59,6 +59,27 @@
       <div class="readbox"><b>破れた回数</b><strong id="breakValue">0</strong></div>
     </div>
     <div class="stateText" id="stateText">切り込みの先端には、まだ小さな力だけが集まっています。</div>
+
+    <section class="detailLab" aria-labelledby="detailTitle">
+      <div class="detailTop">
+        <div>
+          <span class="miniEyebrow">先端を拡大</span>
+          <h3 id="detailTitle">破れる直前を、ゆっくり見よう</h3>
+        </div>
+        <button class="detailReplay" id="detailReplay">↻ 動きを見る</button>
+      </div>
+
+      <div class="detailTabs" role="tablist" aria-label="拡大図の切り替え">
+        <button class="detailTab active" id="detailEnergy" role="tab" aria-selected="true">① エネルギーがたまる</button>
+        <button class="detailTab" id="detailFrame" role="tab" aria-selected="false">② 枠で力が変わる</button>
+      </div>
+
+      <div class="detailCanvasWrap">
+        <canvas id="detailCanvas" aria-label="破れの先端で起こる変形を拡大した概念アニメーション"></canvas>
+      </div>
+      <p class="detailCaption" id="detailCaption">指が裂け目を広げると、先端の周りのフィルムが少しずつ伸びます。</p>
+      <p class="detailNote" id="detailNote"><b>正確には：</b>エネルギーが赤い点だけに貯金されるのではなく、赤い点の周りのフィルムが伸びたり曲がったりした状態として、変形エネルギーを持ちます。</p>
+    </section>
   </section>
 
   <aside class="card side">
@@ -79,7 +100,7 @@
       <input id="tough" type="range" min="10" max="100" value="55">
     </div>
     <div class="control">
-      <label for="returnForce">反対側へ戻す働き <output id="returnOut">ふつう 52</output></label>
+      <label for="returnForce">中心へ戻す働き（枠の影響） <output id="returnOut">ふつう 52</output></label>
       <input id="returnForce" type="range" min="10" max="100" value="52">
     </div>
     <div class="control">
@@ -113,16 +134,16 @@
         <span class="num">2</span>
         <h3>限界を超えると、少しだけ破れる</h3>
         <p>
-          指が進む間、フィルムには変形のエネルギーがたまります。
-          それがフィルムの<span class="word">破れにくさ</span>を超えると、先端が一歩進みます。
+          指が裂け目を広げると、先端の周りのフィルムが伸びたり曲がったりします。
+          そこにたまった<span class="word">変形エネルギー</span>が破れにくさを超えると、先端が一歩進みます。
         </p>
       </article>
       <article class="concept">
         <span class="num">3</span>
         <h3>新しい先端が、次の向きを変える</h3>
         <p>
-          片側へ寄ると、反対側の引っ張られ方が強くなります。向きの切り替えが少し遅れるため、
-          行き過ぎと戻りがくり返され、波状になります。
+          先端が片側へ寄ると、固定枠までの距離とフィルムを引く角度が上下で違ってきます。
+          すると力のバランスが崩れて次の一歩の向きが変わります。向きの変化に少し遅れがあると、行き過ぎと戻りがくり返され、波状になります。
         </p>
       </article>
     </div>
@@ -138,8 +159,8 @@
         <div class="answer">このモデルでは、限界まで多くのエネルギーをためてから、まとまって破れやすくなります。</div>
       </article>
       <article class="mission">
-        <h3>B　戻す働きを上げる</h3>
-        <p>波の間隔は広くなるか、せまくなるか。先に予想してから試しましょう。</p>
+        <h3>B　枠の影響を強くする</h3>
+        <p>中心へ戻す働きを強くすると、波の間隔は広くなるか、せまくなるか。先に予想してから試しましょう。</p>
         <button class="reveal">考え方を見る</button>
         <div class="answer">このモデルでは、中心へ戻ろうとする反応が速くなるので、波の間隔はせまくなる傾向があります。</div>
       </article>
@@ -156,11 +177,11 @@
     <h2>このシミュレーションの考え方</h2>
     <div class="modelBox">
       <div class="modelFlow">
-        <div class="modelRow"><b>指が進む</b><span>→ フィルムが引っ張られ、変形エネルギーがたまる</span></div>
+        <div class="modelRow"><b>指が進む</b><span>→ 先端の周りが広げられ、伸びや曲げとして変形エネルギーがたまる</span></div>
         <div class="arrowDown">↓</div>
         <div class="modelRow"><b>限界を超える</b><span>→ 破れの先端が少し進む</span></div>
         <div class="arrowDown">↓</div>
-        <div class="modelRow"><b>先端の場所が変わる</b><span>→ 次に力が集まる側も変わる</span></div>
+        <div class="modelRow"><b>先端の場所が変わる</b><span>→ 固定枠までの距離と力の角度が変わり、次の向きも変わる</span></div>
         <div class="arrowDown">↺</div>
         <div class="modelRow"><b>同じことをくり返す</b><span>→ 波状の軌跡ができる</span></div>
       </div>
@@ -176,6 +197,7 @@
         <div class="glossary">
           <div><b>応力</b>材料の中に生じる、単位面積あたりの力。</div>
           <div><b>応力集中</b>切り込みや角の近くに、応力が特に集まること。</div>
+          <div><b>変形エネルギー</b>材料が伸びたり曲がったりしたときに蓄えるエネルギー。</div>
           <div><b>引裂抵抗</b>破れを進めるのに必要な抵抗・エネルギー。</div>
           <div><b>フィードバック</b>起きた変化が、次の変化のしかたに影響すること。</div>
         </div>
@@ -184,10 +206,11 @@
   </section>
 
   <footer>
-    教育用概念モデルです。数値は実際のN（ニュートン）やmmではなく、条件比較のためのモデル値です。
+    教育用概念モデル v0.3です。数値は実際のN（ニュートン）やmmではなく、条件比較のためのモデル値です。
   </footer>
 </main>
 
 <script src="./js/app.js" defer></script>
+<script src="./js/detail.js?v=0.3" defer></script>
 </body>
 </html>
