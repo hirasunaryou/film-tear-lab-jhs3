@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#2458d3">
+<meta name="description" content="中学3年向け。薄いフィルムが波状に破れる仕組みを、応力集中・変形エネルギー・フィードバックから考える概念シミュレーション。">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="破れラボ">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./assets/icon-192.png">
+<title>波うつ「破れ」の科学ラボ｜中学3年・探究向け</title>
+<link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+<header class="wrap">
+  <span class="eyebrow">中学3年・理科探究向け</span>
+  <h1>波うつ「破れ」の科学ラボ</h1>
+  <p class="lead">
+    切り込みに指を入れて横へ動かすと、薄いフィルムが波のように破れることがあります。
+    破れの先端で何が起きているのかを、指で操作しながら考えるための<strong>概念シミュレーション</strong>です。
+  </p>
+  <div class="flow" aria-label="探究の流れ">
+    <span>① 予想する</span><span>② 動かす</span><span>③ 比べる</span><span>④ 説明する</span>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="card lab" aria-label="シミュレーション">
+    <div class="modebar">
+      <div class="modechoices">
+        <button class="pillbtn active" id="autoMode">自動で観察</button>
+        <button class="pillbtn" id="manualMode">自分の指で実験</button>
+      </div>
+      <span class="smallnote">赤い点が、いまの「破れの先端」です</span>
+    </div>
+
+    <div class="canvasWrap">
+      <canvas id="sim" aria-label="薄いフィルムが波状に破れるシミュレーション"></canvas>
+      <div class="canvasHint" id="canvasHint">「スタート」を押してください</div>
+    </div>
+
+    <div class="actions">
+      <button class="action primary" id="start">▶ スタート</button>
+      <button class="action" id="pause">Ⅱ 一時停止</button>
+      <button class="action" id="oneStep">＋ 1回だけ破る</button>
+      <button class="action danger" id="reset">↺ リセット</button>
+    </div>
+
+    <div class="readout" aria-live="polite">
+      <div class="readbox energyBox">
+        <b>たまった変形エネルギー</b>
+        <strong id="energyValue">0%</strong>
+        <div class="energyTrack"><div class="energyFill" id="energyFill"></div></div>
+      </div>
+      <div class="readbox"><b>破れた長さ</b><strong id="lengthValue">0</strong></div>
+      <div class="readbox"><b>波の大きさ</b><strong id="ampValue">0</strong></div>
+      <div class="readbox"><b>破れた回数</b><strong id="breakValue">0</strong></div>
+    </div>
+    <div class="stateText" id="stateText">切り込みの先端には、まだ小さな力だけが集まっています。</div>
+  </section>
+
+  <aside class="card side">
+    <h2>条件を変えて実験</h2>
+
+    <div class="presets">
+      <button class="preset" data-preset="standard"><b>標準フィルム</b><span>まずはここから</span></button>
+      <button class="preset" data-preset="tough"><b>破れにくいフィルム</b><span>エネルギーを多くためる</span></button>
+      <button class="preset" data-preset="uneven"><b>むらのあるフィルム</b><span>波形が不規則になりやすい</span></button>
+    </div>
+
+    <div class="control">
+      <label for="speed">指の速さ <output id="speedOut">ふつう 55</output></label>
+      <input id="speed" type="range" min="10" max="100" value="55">
+    </div>
+    <div class="control">
+      <label for="tough">破れにくさ <output id="toughOut">ふつう 55</output></label>
+      <input id="tough" type="range" min="10" max="100" value="55">
+    </div>
+    <div class="control">
+      <label for="returnForce">反対側へ戻す働き <output id="returnOut">ふつう 52</output></label>
+      <input id="returnForce" type="range" min="10" max="100" value="52">
+    </div>
+    <div class="control">
+      <label for="disorder">厚さ・材質のむら <output id="disorderOut">少ない 16</output></label>
+      <input id="disorder" type="range" min="0" max="80" value="16">
+    </div>
+
+    <div class="toggles">
+      <label class="toggle"><input type="checkbox" id="stress" checked> 力が集まる場所を色で見る</label>
+      <label class="toggle"><input type="checkbox" id="arrows" checked> 力の向きを矢印で見る</label>
+      <label class="toggle"><input type="checkbox" id="slow"> スロー再生にする</label>
+    </div>
+
+    <div class="sideTip">
+      <b>実験のコツ：</b>一度に変える条件は1つだけ。ほかを同じにすると、原因を考えやすくなります。
+    </div>
+  </aside>
+
+  <section class="card full">
+    <h2>波のように破れるまでの3段階</h2>
+    <div class="concepts">
+      <article class="concept">
+        <span class="num">1</span>
+        <h3>切り込みの先に力が集まる</h3>
+        <p>
+          切り込みの一番先は、形が急に変わる場所です。そこで材料の中の「無理」が大きくなります。
+          これを<span class="word">応力集中</span>と呼びます。
+        </p>
+      </article>
+      <article class="concept">
+        <span class="num">2</span>
+        <h3>限界を超えると、少しだけ破れる</h3>
+        <p>
+          指が進む間、フィルムには変形のエネルギーがたまります。
+          それがフィルムの<span class="word">破れにくさ</span>を超えると、先端が一歩進みます。
+        </p>
+      </article>
+      <article class="concept">
+        <span class="num">3</span>
+        <h3>新しい先端が、次の向きを変える</h3>
+        <p>
+          片側へ寄ると、反対側の引っ張られ方が強くなります。向きの切り替えが少し遅れるため、
+          行き過ぎと戻りがくり返され、波状になります。
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <section class="card full">
+    <h2>探究ミッション</h2>
+    <div class="missions">
+      <article class="mission">
+        <h3>A　破れにくさを上げる</h3>
+        <p>エネルギーのメーターと、破れるタイミングはどう変わるでしょう。</p>
+        <button class="reveal">考え方を見る</button>
+        <div class="answer">このモデルでは、限界まで多くのエネルギーをためてから、まとまって破れやすくなります。</div>
+      </article>
+      <article class="mission">
+        <h3>B　戻す働きを上げる</h3>
+        <p>波の間隔は広くなるか、せまくなるか。先に予想してから試しましょう。</p>
+        <button class="reveal">考え方を見る</button>
+        <div class="answer">このモデルでは、中心へ戻ろうとする反応が速くなるので、波の間隔はせまくなる傾向があります。</div>
+      </article>
+      <article class="mission">
+        <h3>C　むらを大きくする</h3>
+        <p>同じ条件でリセットを何回か行い、毎回同じ形になるか調べましょう。</p>
+        <button class="reveal">考え方を見る</button>
+        <div class="answer">小さな材質差を乱数で表しているため、規則正しい波から外れ、実験ごとの差も大きくなります。</div>
+      </article>
+    </div>
+  </section>
+
+  <section class="card full">
+    <h2>このシミュレーションの考え方</h2>
+    <div class="modelBox">
+      <div class="modelFlow">
+        <div class="modelRow"><b>指が進む</b><span>→ フィルムが引っ張られ、変形エネルギーがたまる</span></div>
+        <div class="arrowDown">↓</div>
+        <div class="modelRow"><b>限界を超える</b><span>→ 破れの先端が少し進む</span></div>
+        <div class="arrowDown">↓</div>
+        <div class="modelRow"><b>先端の場所が変わる</b><span>→ 次に力が集まる側も変わる</span></div>
+        <div class="arrowDown">↺</div>
+        <div class="modelRow"><b>同じことをくり返す</b><span>→ 波状の軌跡ができる</span></div>
+      </div>
+      <div>
+        <div class="caution">
+          <h3>科学で大切な注意</h3>
+          <p>
+            これは現象を理解するために単純化した「モデル」です。
+            実物がまったく同じ仕組みで破れたことを証明するものではありません。
+            本物では、摩擦、フィルムのたわみ、厚さ、材料の伸びやすさ、切り込みの形なども関係します。
+          </p>
+        </div>
+        <div class="glossary">
+          <div><b>応力</b>材料の中に生じる、単位面積あたりの力。</div>
+          <div><b>応力集中</b>切り込みや角の近くに、応力が特に集まること。</div>
+          <div><b>引裂抵抗</b>破れを進めるのに必要な抵抗・エネルギー。</div>
+          <div><b>フィードバック</b>起きた変化が、次の変化のしかたに影響すること。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    教育用概念モデルです。数値は実際のN（ニュートン）やmmではなく、条件比較のためのモデル値です。
+  </footer>
+</main>
+
+<script src="./js/app.js" defer></script>
+</body>
+</html>
