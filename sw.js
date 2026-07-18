@@ -1,9 +1,10 @@
-const CACHE = 'film-tear-lab-v2';
+const CACHE = 'film-tear-lab-v3';
 const ASSETS = [
   './',
   './index.html',
-  './css/styles.css',
+  './css/styles.css?v=0.3',
   './js/app.js',
+  './js/detail.js?v=0.3',
   './manifest.webmanifest',
   './assets/icon-192.png',
   './assets/icon-512.png'
@@ -27,20 +28,20 @@ self.addEventListener('activate', event => {
   );
 });
 
+// Network-first makes future GitHub Pages updates visible promptly.
+// Cached files remain available when the device is offline.
 self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return;
 
   event.respondWith(
-    caches.match(event.request).then(cached => {
-      if (cached) return cached;
-
-      return fetch(event.request)
-        .then(response => {
-          const copy = response.clone();
-          caches.open(CACHE).then(cache => cache.put(event.request, copy));
-          return response;
-        })
-        .catch(() => caches.match('./index.html'));
-    })
+    fetch(event.request)
+      .then(response => {
+        const copy = response.clone();
+        caches.open(CACHE).then(cache => cache.put(event.request, copy));
+        return response;
+      })
+      .catch(() => caches.match(event.request).then(
+        cached => cached || caches.match('./index.html')
+      ))
   );
 });
